@@ -13,6 +13,8 @@ myscreen = pg.display.set_mode(k.SCREENRECT.size)
 myscreen.fill("blue")
 # create a clock for timing of screen flips
 clock = pg.time.Clock()
+# for framerate
+framerate = 15
 
 # * * * * * * * * * * * * * * * * * * * *
 # let's move these into their own file for
@@ -50,11 +52,13 @@ def my_quit():
     running = False
 
 def switchsheet():
-    global pacman,vapors,current_sprites
+    global pacman,vapors,current_sprites,framerate
     if current_sprites==pacman:
         current_sprites = vapors
+        framerate = 10
     else:
         current_sprites = pacman
+        framerate = 4
 
 # BUTTONS
 my_quit = (Button(myscreen,k.QUITBUTTONRECT.x,k.QUITBUTTONRECT.y,k.QUITBUTTONRECT.width,k.QUITBUTTONRECT.height,
@@ -65,7 +69,7 @@ my_switch = (Button(myscreen,k.SWITCHBUTTONRECT.x,k.SWITCHBUTTONRECT.y,k.SWITCHB
 
 # set our default current class
 current_sprites = sheetcut.spritesheet()
-current_sprites = pacman
+current_sprites = vapors
 running = True
 
 # ANIMATE
@@ -97,7 +101,7 @@ while running:
     animate()
     widget.update(event)
     pg.display.flip()
-    dt = clock.tick(10)
+    dt = clock.tick(framerate)
 
 
 # LOOP ENDED
