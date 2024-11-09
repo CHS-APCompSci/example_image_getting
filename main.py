@@ -7,6 +7,8 @@ myscreen.fill("blue")
 clock = pg.time.Clock()
 
 # * * * * * * * * * * * * * * * * * * * *
+# let's move these into their own file for
+# future use
 
 background = pg.image.load("vapor_cloud 2.png")
 photobook = []
