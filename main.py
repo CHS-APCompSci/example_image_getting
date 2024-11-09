@@ -1,13 +1,14 @@
 import pygame as pg
-from pygame import Surface
+
 
 pg.init()
 myscreen = pg.display.set_mode((400,400))
-background = pg.image.load("vapor_cloud 2.png")
-# myscreen.blit(background,(0,0))
-myscreen.fill("light blue")
+myscreen.fill("blue")
 clock = pg.time.Clock()
 
+# * * * * * * * * * * * * * * * * * * * *
+
+background = pg.image.load("vapor_cloud 2.png")
 photobook = []
 width = 128
 high = 128
@@ -20,11 +21,11 @@ for j in range (5):
         image.blit(background,(0,0),rect)
         photobook.append(image)
 
+# * * * * * * * * * * * * * * * * * * * *
 
 running = True
 
 # ANIMATE
-count = len(photobook)
 currentimage = 0
 reversedirection = True
 def animate():
@@ -36,8 +37,8 @@ def animate():
         plusvalue = -1
     else:
         plusvalue = 1
+
     currentimage = currentimage + plusvalue
-    # print (currentimage)
     myscreen.blit(photobook[currentimage], (100, 100))
     pg.display.update()
 
@@ -46,10 +47,12 @@ while running:
         if event.type == pg.QUIT:
             running = False
 
-    myscreen.fill("black")
+    myscreen.fill("blue")
     animate()
+    # myscreen.blit(m_bubble.get_sprite(0),(200,200))
     pg.display.flip()
     dt = clock.tick(10)
+
 
 # LOOP ENDED
 pg.quit()
