@@ -74,14 +74,11 @@ running = True
 
 # ANIMATE
 currentimage = 0
-plusvalue = 0
 reversedirection = True
 def animate():
-    global currentimage,reversedirection,plusvalue
+    global currentimage,reversedirection
 
-    currentimage = currentimage + plusvalue
     myscreen.blit(current_sprites.show_sprite(currentimage), (100, 100))
-    pg.display.update()
 
     if currentimage == (current_sprites.length - 1) or currentimage == 0:
         reversedirection = not reversedirection
@@ -90,6 +87,7 @@ def animate():
     else:
         plusvalue = 1
 
+    currentimage = currentimage + plusvalue
 
 
 while running:
