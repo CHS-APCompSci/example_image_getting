@@ -1,48 +1,92 @@
+# IMPORTS
 import pygame as pg
+import sheetcut
+import pygame_widgets as widget
+from pygame_widgets.button import Button
+import constants as k
 
 
+
+# INITIALIZE
 pg.init()
-myscreen = pg.display.set_mode((400,400))
+myscreen = pg.display.set_mode(k.SCREENRECT.size)
 myscreen.fill("blue")
+# create a clock for timing of screen flips
 clock = pg.time.Clock()
 
 # * * * * * * * * * * * * * * * * * * * *
 # let's move these into their own file for
 # future use
 
-background = pg.image.load("vapor_cloud 2.png")
-photobook = []
-width = 128
-high = 128
-for j in range (5):
-    for i in range (5):
-        starty = 0 + j*high
-        startx = 0 + i*width
-        rect = pg.Rect(startx,starty,width,high)
-        image = pg.Surface((width,high),pg.SRCALPHA).convert_alpha()
-        image.blit(background,(0,0),rect)
-        photobook.append(image)
-
+#background = pg.image.load("vapor_cloud 2.png")
+#photobook = []
+#width = 128
+#high = 128
+#for j in range (5):
+#    for i in range (5):
+#        starty = 0 + j*high
+#        startx = 0 + i*width
+#        rect = pg.Rect(startx,starty,width,high)
+#        image = pg.Surface((width,high),pg.SRCALPHA).convert_alpha()
+#        image.blit(background,(0,0),rect)
+#        photobook.append(image)
+#
 # * * * * * * * * * * * * * * * * * * * *
 
+# CLASS INSTANCES
+vapors = sheetcut.spritesheet()
+vapors.set_filename("vapor_cloud 2.png")
+vapors.set_parameters(128, 128, 5, 5)
+vapors.slice()
+
+pacman = sheetcut.spritesheet()
+pacman.set_filename("ghosts copy.svg")
+pacman.set_parameters(130,130,6,4,5,5,0,0)
+pacman.slice()
+
+# COMMANDS
+def my_quit():
+    global running
+    running = False
+
+def switchsheet():
+    global pacman,vapors,current_sprites
+    if current_sprites==pacman:
+        current_sprites = vapors
+    else:
+        current_sprites = pacman
+
+# BUTTONS
+my_quit = (Button(myscreen,k.QUITBUTTONRECT.x,k.QUITBUTTONRECT.y,k.QUITBUTTONRECT.width,k.QUITBUTTONRECT.height,
+                 text="Quit", radius = 5, onClick=my_quit))
+
+my_switch = (Button(myscreen,k.SWITCHBUTTONRECT.x,k.SWITCHBUTTONRECT.y,k.SWITCHBUTTONRECT.width,k.SWITCHBUTTONRECT.height,
+                 text="Switch", radius = 5, onClick=switchsheet))
+
+# set our default current class
+current_sprites = sheetcut.spritesheet()
+current_sprites = pacman
 running = True
 
 # ANIMATE
 currentimage = 0
+plusvalue = 0
 reversedirection = True
 def animate():
-    global currentimage,reversedirection
+    global currentimage,reversedirection,plusvalue
 
-    if currentimage == 24 or currentimage == 0:
+    currentimage = currentimage + plusvalue
+    myscreen.blit(current_sprites.show_sprite(currentimage), (100, 100))
+    pg.display.update()
+
+    if currentimage == (current_sprites.length - 1) or currentimage == 0:
         reversedirection = not reversedirection
     if reversedirection:
         plusvalue = -1
     else:
         plusvalue = 1
 
-    currentimage = currentimage + plusvalue
-    myscreen.blit(photobook[currentimage], (100, 100))
-    pg.display.update()
+
 
 while running:
     for event in pg.event.get():
@@ -51,7 +95,7 @@ while running:
 
     myscreen.fill("blue")
     animate()
-    # myscreen.blit(m_bubble.get_sprite(0),(200,200))
+    widget.update(event)
     pg.display.flip()
     dt = clock.tick(10)
 
