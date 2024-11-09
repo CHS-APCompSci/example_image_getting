@@ -31,6 +31,7 @@ reversedirection = True
 def animate():
     global currentimage,reversedirection
 
+    # show the current image here, then update
     if currentimage == 24 or currentimage == 0:
         reversedirection = not reversedirection
     if reversedirection:
