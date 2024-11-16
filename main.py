@@ -1,27 +1,24 @@
 import pygame as pg
-
+from spritecutter import imagecutter
 
 pg.init()
 myscreen = pg.display.set_mode((400,400))
 myscreen.fill("blue")
 clock = pg.time.Clock()
 
-# * * * * * * * * * * * * * * * * * * * *
+vapors = imagecutter("vapor_cloud 2.png",128,128,
+                     5,5)
+vapors.cut()
 
-background = pg.image.load("vapor_cloud 2.png")
-photobook = []
-width = 128
-high = 128
-for j in range (5):
-    for i in range (5):
-        starty = 0 + j*high
-        startx = 0 + i*width
-        rect = pg.Rect(startx,starty,width,high)
-        image = pg.Surface((width,high),pg.SRCALPHA).convert_alpha()
-        image.blit(background,(0,0),rect)
-        photobook.append(image)
+ghosts = imagecutter("ghosts.svg",130,130,
+                     6,4)
+ghosts.cut()
 
-# * * * * * * * * * * * * * * * * * * * *
+hero = imagecutter("female_dark_yellow.png",48,48,
+                   3,1,0,6*48)
+hero.cut()
+
+myanimatedsprites = hero
 
 running = True
 
@@ -32,7 +29,7 @@ def animate():
     global currentimage,reversedirection
 
     # show the current image here, then update
-    if currentimage == 24 or currentimage == 0:
+    if currentimage == len(myanimatedsprites.photobook)-1 or currentimage == 0:
         reversedirection = not reversedirection
     if reversedirection:
         plusvalue = -1
@@ -40,7 +37,8 @@ def animate():
         plusvalue = 1
 
     currentimage = currentimage + plusvalue
-    myscreen.blit(photobook[currentimage], (100, 100))
+    myscreen.blit(pg.transform.scale(myanimatedsprites.photobook[currentimage],(200,200)),(100,100))
+    #myscreen.blit(myanimatedsprites.photobook[currentimage], (100, 100))
     pg.display.update()
 
 while running:
@@ -50,7 +48,6 @@ while running:
 
     myscreen.fill("blue")
     animate()
-    # myscreen.blit(m_bubble.get_sprite(0),(200,200))
     pg.display.flip()
     dt = clock.tick(10)
 
