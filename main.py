@@ -1,8 +1,11 @@
 import pygame as pg
 from spritecutter import imagecutter
+import constants as k
+
 
 pg.init()
-myscreen = pg.display.set_mode((400,400))
+
+myscreen = pg.display.set_mode(k.m_screen)
 myscreen.fill("blue")
 clock = pg.time.Clock()
 
@@ -21,7 +24,6 @@ hero.cut()
 myanimatedsprites = hero
 
 running = True
-
 # ANIMATE
 currentimage = 0
 reversedirection = True
@@ -41,16 +43,23 @@ def animate():
     #myscreen.blit(myanimatedsprites.photobook[currentimage], (100, 100))
     pg.display.update()
 
+
+
 while running:
     for event in pg.event.get():
         if event.type == pg.QUIT:
             running = False
+    # get any keys that are pressed
+    keys = pg.key.get_pressed()
+    # when D or A are pressed
+    # set the direction of the hero
+    direction = keys[pg.K_d] - keys[pg.K_a]
+
 
     myscreen.fill("blue")
     animate()
     pg.display.flip()
     dt = clock.tick(10)
-
 
 # LOOP ENDED
 pg.quit()
