@@ -1,5 +1,5 @@
 # SCREEN
-m_screen = width,height = (400, 400)
+m_screen = width,height = (800, 800)
 
 # HERO
 hero_speed = 10
