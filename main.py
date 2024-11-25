@@ -59,7 +59,7 @@ while running:
     myscreen.fill("blue")
     animate()
     pg.display.flip()
-    dt = clock.tick(20)
+    dt = clock.tick(20) #test
 
 # LOOP ENDED
 pg.quit()
