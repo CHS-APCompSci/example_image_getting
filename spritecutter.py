@@ -1,5 +1,3 @@
-from select import select
-
 import pygame as pg
 
 class imagecutter:
